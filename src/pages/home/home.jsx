@@ -10,10 +10,12 @@ import {fetchPostTC, fetchTagsTC} from "../../store/posts/postsReducer";
 
 export const Home = () => {
     const dispatch = useDispatch();
+    const userData = useSelector(state => state.login.data);
     const posts = useSelector(state => state.posts.posts);
     const tags = useSelector(state => state.posts.tags);
     const isPostsLoading = useSelector(state => state.posts.isPostsLoading);
     const isTagsLoading = useSelector(state => state.posts.isTagsLoading);
+    console.log(userData)
 
     React.useEffect(() => {
         dispatch(fetchPostTC())
@@ -36,14 +38,14 @@ export const Home = () => {
                         <Post
                             _id={item._id}
                             title={item.title}
-                            imageUrl={item.imageUrl}
+                            imageUrl={item.imageUrl ? `http://localhost:5555/${item.imageUrl}`: ''} // todo env на все ссылки при деплои не забыть поменять!!!!
                             user={item.user}
                             createdAt={item.createdAt}
                             viewsCount={item.viewsCount}
                             commentsCount={3}
                             tags={item.tags}
                             isLoading={false}
-                            isEditable
+                            isEditable={userData ?._id === item.user._id}
                         />
                     ))}
                 </Grid>

@@ -7,4 +7,7 @@ export const postsApi = {
     fetchTags() {
         return instance.get('/tags');
     },
+    removePost(id) {
+        return instance.delete(`/posts/${id}`);
+    },
 };

@@ -10,6 +10,8 @@ import styles from './post.module.scss';
 import { UserInfo } from '../userInfo/userInfo';
 import { PostSkeleton } from './skeleton';
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {removePostTC} from "../../store/posts/postsReducer";
 
 export const Post = ({
                          _id,
@@ -25,12 +27,17 @@ export const Post = ({
                          isLoading,
                          isEditable,
                      }) => {
+
+
+    const dispatch = useDispatch();
     if (isLoading) {
         return <PostSkeleton />;
     }
 
 
-    const onClickRemove = () => {};
+    const onClickRemove = () => {
+        dispatch(removePostTC(_id));
+    };
 
     return (
         <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

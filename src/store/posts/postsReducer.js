@@ -98,3 +98,14 @@ export const fetchTagsTC = () => {
             })
     }
 };
+
+export const removePostTC = (id) => {
+    return (dispatch) => {
+        postsApi.removePost(id)
+            .then(() => {
+                dispatch(fetchPostTC())
+            }).catch(e => {
+                console.log(e)
+        })
+    }
+};
