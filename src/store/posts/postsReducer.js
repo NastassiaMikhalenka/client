@@ -1,5 +1,6 @@
 import {postsApi} from "../../api/postsApi/postsApi";
 import {setErrorAC} from "../auth/authReducer";
+import axios from "../../api/axios";
 
 export const initialStatePosts = {
     posts: [],
@@ -7,12 +8,15 @@ export const initialStatePosts = {
     isPostsLoading: false,
     isTagsLoading: false,
     error: '',
+    postOne: {},
 };
 
 export const postsReducer = (state = initialStatePosts, action) => {
     switch (action.type) {
         case 'posts/SET_POSTS':
             return {...state, posts: action.payload.posts}
+        case 'posts/SET_POST_ONE':
+            return {...state, postOne: action.payload.postOne}
         case 'posts/SET_TAGS':
             return {...state, tags: action.payload.tags}
         case 'posts/SET_LOADING_POSTS':
@@ -35,6 +39,14 @@ export const setPosts = (data) => {
     }
 }
 
+export const setPostOne = (data) => {
+    return {
+        type: 'posts/SET_POST_ONE',
+        payload: {
+            postOne: data
+        }
+    }
+}
 
 export const setTags = (data) => {
     return {
@@ -71,6 +83,30 @@ export const fetchPostTC = () => {
         postsApi.fetchPosts()
             .then((res) => {
                 dispatch(setPosts(res.data))
+            })
+            .catch(e => {
+                dispatch(setErrorAC(e.response ? e.response.data.message : e.message))
+            })
+            .finally(() => {
+                dispatch(setLoadingPostsAC(true));
+            })
+    }
+};
+// axios.get(`/posts/${id}`).then(res => {
+//     setData(res.data)
+//     setIsLoading(false)
+// }).catch((err) => {
+//     console.warn(err)
+//     alert('Ошибка')
+// })
+
+export const fetchPostOneTC = (id) => {
+    return (dispatch) => {
+        dispatch(setLoadingPostsAC(false));
+        postsApi.fetchPostOne(id)
+            .then((res) => {
+                console.log(res.data)
+                dispatch(setPostOne(res.data))
             })
             .catch(e => {
                 dispatch(setErrorAC(e.response ? e.response.data.message : e.message))

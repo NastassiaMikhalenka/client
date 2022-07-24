@@ -10,4 +10,7 @@ export const postsApi = {
     removePost(id) {
         return instance.delete(`/posts/${id}`);
     },
+    fetchPostOne(id) {
+        return instance.get(`/posts/${id}`);
+    }
 };

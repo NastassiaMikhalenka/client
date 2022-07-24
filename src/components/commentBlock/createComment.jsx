@@ -6,9 +6,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import {useParams} from "react-router-dom";
 import axios from "../../api/axios";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export const CreateComment = ({postId}) => {
+    const dispatch = useDispatch()
     const [text, setValue] = useState('')
     console.log(postId)
     const isAuth = useSelector(state => state.login.status);
@@ -16,6 +17,7 @@ export const CreateComment = ({postId}) => {
     const postCommit = () => {
         axios.post('/comments', {postId, text}).then(() => {
             console.log('Done');
+            setValue('')
         }).catch((e) => {
             console.log(e)
         })

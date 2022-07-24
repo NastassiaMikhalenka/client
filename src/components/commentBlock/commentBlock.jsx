@@ -7,12 +7,24 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import Skeleton from "@mui/material/Skeleton";
 import {SideBar} from "../sidebar/sidebar";
+import axios from "../../api/axios";
 
-export const CommentsBlock = ({ items, children, isLoading = true }) => {
+export const CommentsBlock = ({id, children, isLoading = true }) => {
+    const [comments, setComments] = React.useState([])
+
+    React.useEffect(() => {
+        axios.get(`/comments/post/${id}`).then(res => {
+            setComments(res.data)
+            // setIsLoading(false)
+        }).catch((err) => {
+            console.warn(err)
+            alert('Ошибка')
+        })
+    }, [comments])
     return (
         <SideBar title="Комментарии">
             <List>
-                {(isLoading ? [...Array(5)] : items).map((obj, index) => (
+                {(isLoading ? [...Array(5)] : comments).map((obj, index) => (
                     <React.Fragment key={index}>
                         <ListItem alignItems="flex-start">
                             <ListItemAvatar>
