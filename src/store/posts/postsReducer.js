@@ -1,6 +1,5 @@
 import {postsApi} from "../../api/postsApi/postsApi";
 import {setErrorAC} from "../auth/authReducer";
-import axios from "../../api/axios";
 
 export const initialStatePosts = {
     posts: [],
@@ -8,7 +7,6 @@ export const initialStatePosts = {
     isPostsLoading: false,
     isTagsLoading: false,
     error: '',
-    postOne: {},
 };
 
 export const postsReducer = (state = initialStatePosts, action) => {
@@ -79,7 +77,7 @@ export const setLoadingTagsAC = (value) => {
 
 export const fetchPostTC = () => {
     return (dispatch) => {
-        dispatch(setLoadingPostsAC(false));
+        dispatch(setLoadingPostsAC(true));
         postsApi.fetchPosts()
             .then((res) => {
                 dispatch(setPosts(res.data))
@@ -88,31 +86,25 @@ export const fetchPostTC = () => {
                 dispatch(setErrorAC(e.response ? e.response.data.message : e.message))
             })
             .finally(() => {
-                dispatch(setLoadingPostsAC(true));
+                dispatch(setLoadingPostsAC(false));
             })
     }
 };
-// axios.get(`/posts/${id}`).then(res => {
-//     setData(res.data)
-//     setIsLoading(false)
-// }).catch((err) => {
-//     console.warn(err)
-//     alert('Ошибка')
-// })
 
 export const fetchPostOneTC = (id) => {
     return (dispatch) => {
-        dispatch(setLoadingPostsAC(false));
+        dispatch(setLoadingPostsAC(true));
         postsApi.fetchPostOne(id)
             .then((res) => {
-                console.log(res.data)
-                dispatch(setPostOne(res.data))
+                let obj = JSON.stringify(res.data)
+                console.log(obj)
+                dispatch(setPostOne(obj))
             })
             .catch(e => {
                 dispatch(setErrorAC(e.response ? e.response.data.message : e.message))
             })
             .finally(() => {
-                dispatch(setLoadingPostsAC(true));
+                dispatch(setLoadingPostsAC(false));
             })
     }
 };

@@ -15,7 +15,7 @@ export const Home = () => {
     const tags = useSelector(state => state.posts.tags);
     const isPostsLoading = useSelector(state => state.posts.isPostsLoading);
     const isTagsLoading = useSelector(state => state.posts.isTagsLoading);
-    console.log(userData)
+    console.log(posts)
 
     React.useEffect(() => {
         dispatch(fetchPostTC())
@@ -31,8 +31,8 @@ export const Home = () => {
             </Tabs>
             <Grid container spacing={4}>
                 <Grid xs={8} item>
-                    {(!isPostsLoading ? [...Array(5)] : posts).map((item, index) =>
-                        !isPostsLoading ? (
+                    {(isPostsLoading ? [...Array(5)] : posts).map((item, index) =>
+                        isPostsLoading ? (
                             <Post key={index}  isLoading={true}/>
                         ): (
                         <Post

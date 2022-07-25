@@ -1,5 +1,4 @@
 import React from "react";
-
 import {Post} from "../../components/post/post";
 import {useParams} from "react-router-dom";
 import axios from "../../api/axios";
@@ -16,7 +15,6 @@ export const FullPost = () => {
     const {id} = useParams();
     // const isLoading = useSelector(state => state.posts.isPostsLoading);
     // const postOne = useSelector(state => state.posts.postOne);
-    console.log(postOne)
 
     React.useEffect(() => {
         // dispatch(fetchPostOneTC(id))
@@ -27,13 +25,6 @@ export const FullPost = () => {
             console.warn(err)
             alert('Ошибка')
         })
-        // axios.get(`/comments/post/${id}`).then(res => {
-        //     setComments(res.data)
-        //     // setIsLoading(false)
-        // }).catch((err) => {
-        //     console.warn(err)
-        //     alert('Ошибка')
-        // })
     }, [])
 
     if (isLoading) {
